@@ -1,0 +1,128 @@
+	connecting database
+
+import (
+	"fmt"
+  	"gorm.io/driver/postgres"
+  	"gorm.io/gorm"
+)
+
+const (
+	
+	Host = "localhost"
+	User = "jasurbek"
+	Password = "1001"
+	DbName = "example"
+	Port = "5432"
+	SslMode = "disable"
+	TimeZone = "Asia/Tashkent"
+)
+
+func main () {
+
+	dsn := fmt.Sprintf(
+
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+		Host, User, Password, DbName, Port, SslMode, TimeZone,
+	)
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	log.Printf("%T", db) // *gorm.DB
+}	
+
+/* WARNIG: struct name = User !!! 
+
+	type User struct {
+
+		...
+	}
+
+ */
+
+
+	 			➊ "Get" Queries:
+
+	• select * from users order by user_id limit 3;
+
+		db.Limit(3).Find(&users)
+
+
+	• select * from users limit 1;
+	
+		db.Take(&user)
+
+
+	• select * from users order by user_id limit 1;
+	
+		db.Firs(&users)
+
+	• select * from users order by user_id desc limit 1;
+	
+		db.Last(&users)
+
+			    "get" Queries: (where)
+
+	• select * from users	
+
+		db.Where("user_id in ?", []int{2, 4}).Find(&users)
+
+		db.Where("user_id = ?", 4).Take(&user)
+
+			    "get" Queries: (where + or)
+
+	• slect * from users where user_name = 'aziz' or user_name = 'vali';
+
+		db.Where("user_name = ?", "aziz").Or("user_name = ?", "vali").Find(&users)
+	
+				"get" Queries: (select)
+
+	• select user_name, created_at from users;
+		
+		db.Select("user_name", "created_at").Find(&users)
+
+				"get" Queries: (select + scan)
+
+	• select * from users
+
+		db.Table("users").Select("*").Scan(&users)
+
+
+		 		➋ MOCK DATA: (creat) [YECHIM]
+
+	postUser = PostUser {
+
+		FullName: "Ikrom Akromov",
+		UserName: "ikrom",
+		PhoneNumber: "856542569",
+	}
+
+	var p_user = map[string]interface{}{
+
+		"full_name" 	: postUser.FullName,
+		"user_name" 	: postUser.UserName,
+		"phone_number"  : postUser.PhoneNumber,
+	}
+
+	db.Model(&user).Create(p_user)
+
+	db.Last(&user)
+
+	fmt.Println(user)	
+
+				➌ UPDATE: (update) 		
+
+
+	db.Model(&User{}).Where("user_name = ?", "vali").Update("phone_number", " --- ")//.Scan(user)	
+
+	db.Where("user_name = ?", "vali").Find(&user)
+
+	log.Println(user)
+
+
+
+
+
+	=> result := db.Find(&user)
+
+		result.RowsAffected // returns count of records found
+		result.Error	
