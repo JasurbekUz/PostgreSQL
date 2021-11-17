@@ -1,5 +1,3 @@
-connection:
-
 package main
 
 import (
