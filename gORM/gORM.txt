@@ -112,7 +112,7 @@ func main () {
 				➌ UPDATE: (update) 		
 
 
-	db.Model(&User{}).Where("user_name = ?", "vali").Update("phone_number", " --- ")//.Scan(user)	
+	db.Model(&User{}).Where("user_name = ?", "vali").Update("phone_number", " --- ")	
 
 	db.Where("user_name = ?", "vali").Find(&user)
 
