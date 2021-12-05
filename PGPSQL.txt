@@ -1,0 +1,24 @@
+	install postgreSQL
+1. $ sudo apt ipdate
+2. $ sudo apt install postgresql postgresql-contrib
+
+	login
+$ sudo -i -u postgres
+$ psql
+
+	create new role
+=# create role name with superuser login password 'password';
+	
+	user role
+$ psql -U name -d postgres -h localhost
+
+postgres=#
+
+psql comands:
+	\du
+	\dt
+	\dt+
+	\! clear
+	...
+
+
